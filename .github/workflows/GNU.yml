@@ -27,7 +27,7 @@ jobs:
       id: general-cache
       with:
         path: |
-          uutils/target/release
+          uutils/target
           gnu
           gnulib
         key: ${{ runner.os }}-general-cache
