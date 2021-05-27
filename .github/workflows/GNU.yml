@@ -16,7 +16,7 @@ jobs:
           ~/.cargo/registry/index/
           ~/.cargo/registry/cache/
           ~/.cargo/git/db/
-        key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+        key: ${{ runner.os }}-cargo
       # Checks out a copy of your repository on the ubuntu-latest machine
     - name: Checkout code uutil
       uses: actions/checkout@v2
@@ -30,7 +30,7 @@ jobs:
           uutils/target/release
           gnu
           gnulib
-        key: ${{ runner.os }}
+        key: ${{ runner.os }}-general-cache
     - name: Checkout GNU coreutils
       uses: actions/checkout@v2
       if: steps.general-cache.outputs.cache-hit != 'true'
