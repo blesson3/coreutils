@@ -65,11 +65,11 @@ jobs:
       run: |
         cd uutils
         make PROFILE=release
-    # - name: Build binaries
-    #   shell: bash
-    #   run: |
-    #    cd uutils
-    #    bash util/build-gnu.sh
+    - name: Build binaries
+      shell: bash
+      run: |
+       cd uutils
+       bash util/build-gnu.sh
     # - name: Run GNU tests
     #   shell: bash
     #   run: |
