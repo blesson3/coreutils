@@ -77,7 +77,6 @@ jobs:
         which tree
         tree target/
         cargo build -p uu_echo --release
-
     # - name: Build binaries
     #   shell: bash
     #   run: |
