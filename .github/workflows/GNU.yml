@@ -7,16 +7,16 @@ jobs:
     name: Run GNU tests
     runs-on: ubuntu-latest
     steps:
-    - name: cache cargo
-      uses: actions/cache@v2
-      id: cargo-cache
-      with:
-        path: |
-          ~/.cargo/bin/
-          ~/.cargo/registry/index/
-          ~/.cargo/registry/cache/
-          ~/.cargo/git/db/
-        key: ${{ runner.os }}-cargo
+    # - name: cache cargo
+    #   uses: actions/cache@v2
+    #   id: cargo-cache
+    #   with:
+    #     path: |
+    #       ~/.cargo/bin/
+    #       ~/.cargo/registry/index/
+    #       ~/.cargo/registry/cache/
+    #       ~/.cargo/git/db/
+    #     key: ${{ runner.os }}-cargo
       # Checks out a copy of your repository on the ubuntu-latest machine
     - name: Checkout code uutil
       uses: actions/checkout@v2
@@ -30,14 +30,14 @@ jobs:
           gnu
           gnulib
         key: ${{ runner.os }}-gnu-cache
-    - name: cache uutils release binaries
-      uses: actions/cache@v2
-      id: uutils-cache
-      with:
-        path: |
-          uutils/target
-          uutils/target/release
-        key: ${{ runner.os }}-uutils-target
+    # - name: cache uutils release binaries
+    #   uses: actions/cache@v2
+    #   id: uutils-cache
+    #   with:
+    #     path: |
+    #       uutils/target
+    #       uutils/target/release
+    #     key: ${{ runner.os }}-uutils-target
     - name: Checkout GNU coreutils
       uses: actions/checkout@v2
       if: steps.gnu-cache.outputs.cache-hit != 'true'
@@ -55,12 +55,14 @@ jobs:
         fetch-depth: 0 # gnu gets upset if gnulib is a shallow checkout
     - name: Install `rust` toolchain
       uses: actions-rs/toolchain@v1
-      if: steps.cargo-cache.outputs.cache-hit != 'true'
       with:
         toolchain: stable
         default: true
         profile: minimal # minimal component installation (ie, no documentation)
         components: rustfmt
+    - uses: Swatinem/rust-cache@v1
+      with:
+        working-directory: uutils
     - name: Install deps
       shell: bash
       run: |
@@ -71,7 +73,11 @@ jobs:
       shell: bash
       run: |
         cd uutils
-        make PROFILE=release
+        # make PROFILE=release
+        which tree
+        tree target/
+        cargo build -p uu_echo --release
+
     # - name: Build binaries
     #   shell: bash
     #   run: |
