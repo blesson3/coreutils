@@ -58,6 +58,11 @@ jobs:
         path: 'gnulib'
         ref: 8e99f24c0931a38880c6ee9b8287c7da80b0036b
         fetch-depth: 0 # gnu gets upset if gnulib is a shallow checkout
+    - name: check dir-structure
+      run: |
+        ls
+        echo
+        tree -L 2
     - name: Install `rust` toolchain
       uses: actions-rs/toolchain@v1
       with:
