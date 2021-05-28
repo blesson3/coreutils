@@ -41,7 +41,7 @@ jobs:
       with:
         path: gnu
         # key is based on gnulib checkout ref
-        key: ${{ runner.os }}-gnulib-8e99f24c0931a38880c6ee9b8287c7da80b0036b
+        key: ${{ runner.os }}-2021-05-27-gnulib-8e99f24c0931a38880c6ee9b8287c7da80b0036b
     # - name: cache uutils release binaries
     #   uses: actions/cache@v2
     #   id: uutils-cache
@@ -68,7 +68,7 @@ jobs:
     - uses: Swatinem/rust-cache@v1
       with:
         working-directory: uutils
-        key: 2021-05-27 # update this key when the cache needs to be reset
+        key: 2021-05-27 # update this key when the rust cache needs to be reset
     - name: Install deps
       shell: bash
       run: |
@@ -124,3 +124,4 @@ jobs:
     #   with:
     #     name: gnu-result
     #     path: gnu-result.json
+
