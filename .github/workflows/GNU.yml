@@ -22,14 +22,28 @@ jobs:
       uses: actions/checkout@v2
       with:
         path: 'uutils'
+    - name: Get latest gnu commit hash
+      id: gnu-git-hash
+      run: |
+        hash=$(curl -s https://api.github.com/repos/coreutils/coreutils/commits/HEAD | jq -r '.sha')
+        echo "::set-output name=hash::${hash}"
     - name: cache gnu
       uses: actions/cache@v2
       id: gnu-cache
       with:
-        path: |
-          gnu
-          gnulib
-        key: ${{ runner.os }}-gnu-cache
+        path: gnu
+        key: ${{ runner.os }}-gnu-${{ steps.gnu-git-hash.outputs.hash }}
+    - name: Get latest gnulib commit hash
+      id: gnulib-git-hash
+      run: |
+        hash=$(curl -s https://api.github.com/repos/coreutils/gnulib/commits/HEAD | jq -r '.sha')
+        echo "::set-output name=hash::${hash}"
+    - name: cache gnulib
+      uses: actions/cache@v2
+      id: gnulib-cache
+      with:
+        path: gnu
+        key: ${{ runner.os }}-gnulib-${{ steps.gnulib-git-hash.outputs.hash }}
     # - name: cache uutils release binaries
     #   uses: actions/cache@v2
     #   id: uutils-cache
@@ -47,7 +61,7 @@ jobs:
         ref: v8.32
     - name: Checkout GNU corelib
       uses: actions/checkout@v2
-      if: steps.gnu-cache.outputs.cache-hit != 'true'
+      if: steps.gnulib-cache.outputs.cache-hit != 'true'
       with:
         repository: 'coreutils/gnulib'
         path: 'gnulib'
@@ -75,11 +89,11 @@ jobs:
         cd uutils
         tree target/
         make PROFILE=release
-    # - name: Build binaries
-    #   shell: bash
-    #   run: |
-    #    cd uutils
-    #    bash util/build-gnu.sh
+    - name: Build binaries
+      shell: bash
+      run: |
+       cd uutils
+       bash util/build-gnu.sh
     # - name: Run GNU tests
     #   shell: bash
     #   run: |
