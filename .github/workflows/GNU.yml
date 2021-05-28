@@ -68,6 +68,7 @@ jobs:
     - uses: Swatinem/rust-cache@v1
       with:
         working-directory: uutils
+        key: 2021-05-27 # update this key when the cache needs to be reset
     - name: Install deps
       shell: bash
       run: |
@@ -123,4 +124,3 @@ jobs:
     #   with:
     #     name: gnu-result
     #     path: gnu-result.json
-
