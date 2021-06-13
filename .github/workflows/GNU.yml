@@ -86,6 +86,8 @@ jobs:
         cd uutils
         tree target/
         make PROFILE=release
+      env:
+        CARGO_INCREMENTAL: '1'
     - name: Build binaries
       shell: bash
       run: |
