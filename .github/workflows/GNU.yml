@@ -3,12 +3,33 @@ name: GNU
 on: [push, pull_request]
 
 jobs:
+  build-matrix:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+    - name: Checkout code uutil
+      uses: actions/checkout@v2
+    - id: set-matrix
+      run: |
+        set -x
+        utilitiesJsonArray="$(echo "{ \"util\": [$(ls src/uu/|sed 's/\///g'|tr -s '\n' ' '|sed -E 's/([a-z1-9]+) /"\1",/g'|sed 's/,$//')] }")"
+        echo "::set-output name=matrix::$utilitiesJsonArray"
+
   gnu:
     name: Run GNU tests
     runs-on: ubuntu-latest
-    env:
-      UTILS: cp # testing only cp for now. faster building
+    needs: build-matrix
+    # env:
+      # UTILS: cp # testing only cp for now. faster building
+    strategy:
+      matrix: ${{fromJson(needs.build-matrix.outputs.matrix)}}
     steps:
+    - name: set util env from matrix
+      run: |
+        export UTILS="$MATRIX_UTIL"
+      env:
+        MATRIX_UTIL: ${{ matrix.util }}
     # - name: cache cargo
     #   uses: actions/cache@v2
     #   id: cargo-cache
