@@ -87,14 +87,17 @@ jobs:
         echo "CARGO_INCREMENTAL: ${CARGO_INCREMENTAL}"
         cd uutils
         tree target/
-        UTILS=cp make PROFILE=release
+        make PROFILE=release
       env:
         CARGO_INCREMENTAL: '1'
+        UTILS: cp
     - name: Build binaries
       shell: bash
       run: |
        cd uutils
        bash util/build-gnu.sh
+      env:
+        UTILS: cp
     # - name: Run GNU tests
     #   shell: bash
     #   run: |
