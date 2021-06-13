@@ -100,7 +100,7 @@ jobs:
     - name: Run cp GNU tests
       shell: bash
       run: |
-        bash uutils/util/run-gnu-test.sh "cp"
+        bash uutils/util/run-gnu-test.sh "tests/cp/abuse.sh"
     - name: Extract tests info
       shell: bash
       run: |
