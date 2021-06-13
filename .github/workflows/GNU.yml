@@ -100,9 +100,11 @@ jobs:
     - name: Run cp GNU tests
       shell: bash
       run: |
+        set -x
         testPaths=$(echo "$UTILS"|sed -E 's/(\w+)/tests\/\1/g')
         # find all tests. ignore test directories that don't exist
         testsForUtilities="$(find $testPaths -type f 2>/dev/null || true)"
+        echo "running tests: ${testsForUtilities}"
         bash uutils/util/run-gnu-test.sh "$testsForUtilities"
     - name: Extract tests info
       shell: bash
