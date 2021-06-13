@@ -27,7 +27,7 @@ jobs:
     steps:
     - name: set util env from matrix
       run: |
-        export UTILS="$MATRIX_UTIL"
+        echo "UTILS=$MATRIX_UTIL" >> $GITHUB_ENV
       env:
         MATRIX_UTIL: ${{ matrix.util }}
     # - name: cache cargo
@@ -84,9 +84,11 @@ jobs:
         fetch-depth: 0 # gnu gets upset if gnulib is a shallow checkout
     - name: check dir-structure
       run: |
-        ls
-        echo
-        tree -L 2
+        set -x
+        echo "${UTILS}"
+        # ls
+        # echo
+        # tree -L 2
     - name: Install `rust` toolchain
       uses: actions-rs/toolchain@v1
       with:
