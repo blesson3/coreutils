@@ -103,7 +103,7 @@ jobs:
         set -x
         testPaths=$(echo "$UTILS"|sed -E 's/(\w+)/gnu\/tests\/\1/g')
         # find all tests. ignore test directories that don't exist
-        testsForUtilities="$(find $testPaths -type f 2>/dev/null || true)"
+        testsForUtilities="echo $(find $testPaths -type f 2>/dev/null || true) | tr -s '\n' ' '"
         echo "running tests: ${testsForUtilities}"
         bash uutils/util/run-gnu-test.sh "$testsForUtilities"
     - name: Extract tests info
