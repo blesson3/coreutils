@@ -31,7 +31,7 @@ set +x # debugging
 pushd $(pwd)
 make PROFILE=release
 BUILDDIR="$PWD/target/release/"
-test -d "${BUILDDIR}/install" && cp "${BUILDDIR}/install" "${BUILDDIR}/ginstall" # The GNU tests rename this script before running, to avoid confusion with the make target
+test -d "${BUILDDIR}/install" && cp "${BUILDDIR}/install" "${BUILDDIR}/ginstall" # The GNU tests rename this script before running,  to avoid confusion with the make target
 # Create *sum binaries
 for sum in b2sum md5sum sha1sum sha224sum sha256sum sha384sum sha512sum
 do
