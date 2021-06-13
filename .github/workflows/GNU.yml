@@ -74,7 +74,6 @@ jobs:
       with:
         working-directory: uutils
         key: 2021-05-27 # update this key when the rust cache needs to be reset
-        sharedKey: rust-cache
     - name: Install deps
       shell: bash
       run: |
