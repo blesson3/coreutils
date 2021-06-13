@@ -15,3 +15,4 @@ lib*.a
 *.iml
 ### macOS ###
 .DS_Store
+gnu_tests
