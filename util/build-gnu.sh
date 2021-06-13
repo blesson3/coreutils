@@ -14,7 +14,7 @@ if test ! -d ../gnulib; then
     exit 1
 fi
 
-bash -x # debugging
+set -x # debugging
 
 # check if gnu and gnulib have already been setup for this script using the script's hash
 thisScriptHash=$(sha256sum "$0"|cut -d ' ' -f 1)
@@ -26,7 +26,7 @@ if [ -f "../gnu/${completedBuildFile}" -a -f "../gnulib/${completedBuildFile}" ]
     exit 0
 fi
 
-bash +x # debugging
+set +x # debugging
 
 pushd $(pwd)
 make PROFILE=release
