@@ -62,6 +62,7 @@ jobs:
         fetch-depth: 0 # gnu gets upset if gnulib is a shallow checkout
     - name: check dir-structure
       run: |
+        apt install -y tree
         ls
         echo
         tree -L 2
