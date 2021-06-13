@@ -6,6 +6,7 @@ jobs:
   gnu:
     name: Run GNU tests
     runs-on: ubuntu-latest
+    container: blesson3/uutils-gnu-test-deps
     steps:
     # - name: cache cargo
     #   uses: actions/cache@v2
@@ -27,7 +28,8 @@ jobs:
       id: gnu-cache
       with:
         path: gnu
-        key: ${{ runner.os }}-gnu-v8.32
+        # key is based on coreutils checkout ref
+        key: ${{ runner.os }}-2021-06-13-gnu-v8.32
     - name: Checkout GNU coreutils
       uses: actions/checkout@v2
       if: steps.gnu-cache.outputs.cache-hit != 'true'
@@ -41,7 +43,7 @@ jobs:
       with:
         path: gnulib
         # key is based on gnulib checkout ref
-        key: ${{ runner.os }}-2021-05-28-gnulib-8e99f24c0931a38880c6ee9b8287c7da80b0036b
+        key: ${{ runner.os }}-2021-06-13-gnulib-8e99f24c0931a38880c6ee9b8287c7da80b0036b
     # - name: cache uutils release binaries
     #   uses: actions/cache@v2
     #   id: uutils-cache
