@@ -6,6 +6,8 @@ jobs:
   gnu:
     name: Run GNU tests
     runs-on: ubuntu-latest
+    env:
+      UTILS: cp # testing only cp for now. faster building
     steps:
     # - name: cache cargo
     #   uses: actions/cache@v2
@@ -90,18 +92,15 @@ jobs:
         make PROFILE=release
       env:
         CARGO_INCREMENTAL: '1'
-        UTILS: cp
     - name: Build binaries
       shell: bash
       run: |
        cd uutils
        bash util/build-gnu.sh
-      env:
-        UTILS: cp
-    # - name: Run GNU tests
-    #   shell: bash
-    #   run: |
-    #     bash uutils/util/run-gnu-test.sh
+    - name: Run cp GNU tests
+      shell: bash
+      run: |
+        bash uutils/util/run-gnu-test.sh "cp"
     # - name: Extract tests info
     #   shell: bash
     #   run: |
