@@ -6,7 +6,6 @@ jobs:
   gnu:
     name: Run GNU tests
     runs-on: ubuntu-latest
-    container: blesson3/uutils-gnu-test-deps
     steps:
     # - name: cache cargo
     #   uses: actions/cache@v2
@@ -62,7 +61,6 @@ jobs:
         fetch-depth: 0 # gnu gets upset if gnulib is a shallow checkout
     - name: check dir-structure
       run: |
-        apt install -y tree
         ls
         echo
         tree -L 2
