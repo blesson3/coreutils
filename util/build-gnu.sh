@@ -22,7 +22,7 @@ echo "${thisScriptHash}"
 completedBuildFile="${thisScriptHash}-build-complete.ts"
 
 if [ -f "../gnu/${completedBuildFile}" -a -f "../gnulib/${completedBuildFile}" ]; then
-    echo "gnu and gnulib already built, skipping..."
+    echo "gnu and gnulib already built for this version of the script, skipping..."
     exit 0
 fi
 

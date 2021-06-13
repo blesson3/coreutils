@@ -30,7 +30,7 @@ jobs:
       with:
         path: gnu
         # key is based on coreutils checkout ref
-        key: ${{ runner.os }}-2021-06-13-gnu-v8.32
+        key: ${{ runner.os }}-2021-06-13-gnu-v8.32-${{ hashFiles('uutils/util/build-gnu.sh') }}
     - name: Checkout GNU coreutils
       uses: actions/checkout@v2
       if: steps.gnu-cache.outputs.cache-hit != 'true'
@@ -44,7 +44,7 @@ jobs:
       with:
         path: gnulib
         # key is based on gnulib checkout ref
-        key: ${{ runner.os }}-2021-06-13-gnulib-8e99f24c0931a38880c6ee9b8287c7da80b0036b
+        key: ${{ runner.os }}-2021-06-13-gnulib-8e99f24c0931a38880c6ee9b8287c7da80b0036b-${{ hashFiles('uutils/util/build-gnu.sh') }}
     # - name: cache uutils release binaries
     #   uses: actions/cache@v2
     #   id: uutils-cache
@@ -100,6 +100,9 @@ jobs:
     - name: Run cp GNU tests
       shell: bash
       run: |
+        testPaths=$(echo "$UTILS"|sed -E 's/(\w+)/tests\/\1/g')
+        # find all tests. ignore test directories that don't exist
+        testsForUtilities="$(find $testPaths -type f 2>/dev/null || true)"
         bash uutils/util/run-gnu-test.sh "tests/cp/abuse.sh tests/cp/acl.sh"
     - name: Extract tests info
       shell: bash
