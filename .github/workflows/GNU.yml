@@ -74,18 +74,20 @@ jobs:
       with:
         working-directory: uutils
         key: 2021-05-27 # update this key when the rust cache needs to be reset
+        sharedKey: rust-cache
     - name: Install deps
       shell: bash
       run: |
         sudo apt-get update
         sudo apt-get install autoconf autopoint bison texinfo gperf gcc g++ gdb python-pyinotify python3-sphinx jq -y
     # the following step is separate from "Build binaries" to allow for easier caching
-    - name: Build uutil rust binaries
+    - name: Build uutil rust binaries (TEST only cp for now for faster build times)
       shell: bash
       run: |
+        echo "CARGO_INCREMENTAL: ${CARGO_INCREMENTAL}"
         cd uutils
         tree target/
-        make PROFILE=release
+        UTILS=cp make PROFILE=release
       env:
         CARGO_INCREMENTAL: '1'
     - name: Build binaries
