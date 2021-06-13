@@ -14,6 +14,19 @@ if test ! -d ../gnulib; then
     exit 1
 fi
 
+bash -x # debugging
+
+# check if gnu and gnulib have already been setup for this script using the script's hash
+thisScriptHash=$(sha256sum "$0"|cut -d ' ' -f 1)
+echo "${thisScriptHash}"
+completedBuildFile="${thisScriptHash}-build-complete.ts"
+
+if [ -f "../gnu/${completedBuildFile}" -a -f "../gnulib/${completedBuildFile}" ]; then
+    echo "gnu and gnulib already built, skipping..."
+    exit 0
+fi
+
+bash +x # debugging
 
 pushd $(pwd)
 make PROFILE=release
@@ -119,3 +132,9 @@ sed -i -e "s|rm: cannot remove 'a/1'|rm: cannot remove 'a'|g" tests/rm/rm2.sh
 sed -i -e "s|removed directory 'a/'|removed directory 'a'|g" tests/rm/v-slash.sh
 
 test -f "${BUILDDIR}/getlimits" || cp src/getlimits "${BUILDDIR}"
+
+# Write the "already-built" file so we know that we already built gnu
+# and gnulib with this version of the script
+
+touch "../gnu/${completedBuildFile}"
+touch "../gnulib/${completedBuildFile}"
